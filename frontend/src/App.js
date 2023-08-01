@@ -1,5 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import axios from 'axios';
+import 'bootstrap/dist/css/bootstrap.min.css';
+import CustomModal from './Modal';
 
 function App() {
   const [items, setItems] = useState([]);
@@ -35,51 +37,22 @@ function App() {
         {items.map((item) => (
           <div
             key={item.id}
-            className="col"
+            className="col mb-4"
             onClick={() => handleItemClick(item)}
             style={{ cursor: 'pointer' }}
           >
             <div className="card h-100">
               <div className="card-body">
                 <h3 className="card-title">{item.title}</h3>
-                {/* Show only the body in the modal */}
-                {showModal && selectedItem && selectedItem.id === item.id && (
-                  <p className="card-text text-muted">{item.body}</p>
-                )}
               </div>
             </div>
           </div>
         ))}
       </div>
 
-      {/* Bootstrap Modal */}
       {selectedItem && (
-        <div
-          className={`modal ${showModal ? 'show' : ''}`}
-          tabIndex="-1"
-          role="dialog"
-          style={{ display: showModal ? 'block' : 'none' }}
-        >
-          <div className="modal-dialog" role="document">
-            <div className="modal-content">
-              <div className="modal-header">
-                <h5 className="modal-title">{selectedItem.title}</h5>
-                <button type="button" className="close" onClick={handleCloseModal}>
-                  <span aria-hidden="true">&times;</span>
-                </button>
-              </div>
-              <div className="modal-body">
-                <p>{selectedItem.body}</p>
-              </div>
-              <div className="modal-footer">
-                <button type="button" className="btn btn-secondary" onClick={handleCloseModal}>
-                  Close
-                </button>
-              </div>
-            </div>
-          </div>
-        </div>
-      )}
+  <CustomModal item={selectedItem} showModal={showModal} onClose={handleCloseModal} />
+)}
     </div>
   );
 }
